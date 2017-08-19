@@ -1,18 +1,20 @@
 package com.example.android6969.listatimes;
 
+import java.io.Serializable;
+
 /**
  * Created by android6969 on 12/08/17.
  */
 
-public class Aluno {
-    private long id;
+public class Aluno implements Serializable {
+    private Long id;
     private String nome;
     private String endereco;
     private String telefone;
     private String email;
     private Double nota;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

@@ -64,4 +64,19 @@ public class AlunoDAO extends SQLiteOpenHelper {
         cursor.close();
         return alunos;
     }
+
+    public void altera(Aluno aluno){
+        ContentValues valores = new ContentValues();
+        valores.put("nome", aluno.getNome());
+        valores.put("endereco", aluno.getEndereco());
+        valores.put("telefone", aluno.getTelefone());
+        valores.put("email", aluno.getEmail());
+        valores.put("nota", aluno.getNota());
+        String[] clausula = {aluno.getId().toString()};
+        getWritableDatabase().update("Aluno", valores, "id=?", clausula);
+    }
+
+    public void exclui(Aluno aluno){
+        getWritableDatabase().delete("Aluno", "id=?", new String[] {aluno.getId().toString()});
+    }
 }
