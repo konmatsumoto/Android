@@ -16,7 +16,7 @@ import java.util.List;
 
 public class AlunoDAO extends SQLiteOpenHelper {
     public AlunoDAO(Context context){
-        super(context, "Caelum", null, 2);
+        super(context, "Caelum", null, 3);
     }
 
     @Override
@@ -32,9 +32,11 @@ public class AlunoDAO extends SQLiteOpenHelper {
     }
 
     public  void onUpgrade(SQLiteDatabase db, int versaoAntiga, int versaoNova){
-        String sql = "DROP TABLE IF EXISTS Aluno";
-        db.execSQL(sql);
-        onCreate(db);
+        switch (versaoAntiga){
+            case 2:
+                String sql = "ALTER TABLE Aluno add column caminhoFoto text;";
+                db.execSQL(sql);
+        }
     }
 
     public void insere(Aluno aluno){
@@ -44,6 +46,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
         valores.put("telefone", aluno.getTelefone());
         valores.put("email", aluno.getEmail());
         valores.put("nota", aluno.getNota());
+        valores.put("caminhoFoto", aluno.getCaminhoFoto());
         getWritableDatabase().insert("Aluno", null, valores);
     }
 
@@ -59,6 +62,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
             a.setTelefone(cursor.getString(cursor.getColumnIndex("telefone")));
             a.setEmail(cursor.getString(cursor.getColumnIndex("email")));
             a.setNota(cursor.getDouble(cursor.getColumnIndex("nota")));
+            a.setCaminhoFoto(cursor.getString(cursor.getColumnIndex("caminhoFoto")));
             alunos.add(a);
         }
         cursor.close();
@@ -72,11 +76,20 @@ public class AlunoDAO extends SQLiteOpenHelper {
         valores.put("telefone", aluno.getTelefone());
         valores.put("email", aluno.getEmail());
         valores.put("nota", aluno.getNota());
+        valores.put("caminhoFoto", aluno.getCaminhoFoto());
         String[] clausula = {aluno.getId().toString()};
         getWritableDatabase().update("Aluno", valores, "id=?", clausula);
     }
 
     public void exclui(Aluno aluno){
         getWritableDatabase().delete("Aluno", "id=?", new String[] {aluno.getId().toString()});
+    }
+
+    public  boolean isAluno(String telefone) {
+        String[] parametros = {telefone};
+        Cursor rawQuery = getReadableDatabase().rawQuery("SELECT telefone FROM Aluno WHERE telefone = ?", parametros);
+        int total = rawQuery.getCount();
+        rawQuery.close();
+        return total > 0;
     }
 }

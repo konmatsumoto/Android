@@ -11,8 +11,19 @@ public class Aluno implements Serializable {
     private String nome;
     private String endereco;
     private String telefone;
+    private String site;
     private String email;
     private Double nota;
+
+    public String getCaminhoFoto() {
+        return caminhoFoto;
+    }
+
+    public void setCaminhoFoto(String caminhoFoto) {
+        this.caminhoFoto = caminhoFoto;
+    }
+
+    private String caminhoFoto;
 
     public Long getId() {
         return id;
@@ -66,4 +77,12 @@ public class Aluno implements Serializable {
         return nome;
     }
 
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
 }

@@ -49,6 +49,7 @@ public class FormularioHelper {
         aluno.setTelefone(telefone.getText().toString());
         aluno.setEmail(email.getText().toString());
         aluno.setNota((double) nota.getRating());
+        aluno.setCaminhoFoto((String) foto.getTag());
         return aluno;
     }
 
@@ -67,6 +68,9 @@ public class FormularioHelper {
         telefone.setText(aluno.getTelefone());
         email.setText(aluno.getEmail());
         nota.setRating(aluno.getNota().floatValue());
+        if(aluno.getCaminhoFoto()!=null){
+            carregaImagem(aluno.getCaminhoFoto());
+        }
         this.aluno = aluno;
     }
 

@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.List;
 
 public class ListaTimes extends AppCompatActivity {
@@ -73,7 +75,7 @@ public class ListaTimes extends AppCompatActivity {
         super.onResume();
 
         AlunoDAO dao = new AlunoDAO(this);
-        ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>(this, android.R.layout.simple_list_item_1, dao.getLista());
+        ListaAlunosAdapter adapter = new ListaAlunosAdapter(dao.getLista());
         lista.setAdapter(adapter);
         dao.close();
     }
@@ -124,5 +126,26 @@ public class ListaTimes extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_lista_alunos, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_enviar_notas:
+                AlunoDAO dao = new AlunoDAO(this);
+                List<Aluno> alunos = dao.getLista();
+                dao.close();
+
+                String json = new AlunoConverter().toJSON(alunos);
+                EnviaAlunosTask task = new EnviaAlunosTask(json, ListaTimes.this);
+                task.execute();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
