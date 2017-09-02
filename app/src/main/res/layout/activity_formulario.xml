@@ -28,7 +28,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_margin="20dp"
-            android:background="@drawable/ic_camera"/>
+            android:src="@drawable/ic_camera"/>
     </RelativeLayout>
 
     <android.support.design.widget.TextInputLayout

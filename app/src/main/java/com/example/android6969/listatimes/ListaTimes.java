@@ -145,6 +145,16 @@ public class ListaTimes extends AppCompatActivity {
                 String json = new AlunoConverter().toJSON(alunos);
                 EnviaAlunosTask task = new EnviaAlunosTask(json, ListaTimes.this);
                 task.execute();
+
+            case R.id.menu_receber_provas:
+                Intent provas = new Intent(this, ProvasActivity.class);
+                startActivity(provas);
+                return true;
+
+            case R.id.menu_mapa:
+                Intent mapa = new Intent(this, MostraAlunosActivity.class);
+                startActivity(mapa);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
